@@ -4,9 +4,8 @@
  * @desc
  * @remark
  */
-
 module.exports = (api, options, presets) => {
-  api.render('./template');
+  api.render(`./${options.project}`);
   api.extendPackage({
     devDependencies: {
       'vuex': '*',
@@ -14,7 +13,7 @@ module.exports = (api, options, presets) => {
       'sass-loader': '*',
       'style-resources-loader': '*',
       'rww-sass': '*',
-      "eslint-plugin-vue": "*",
+      'eslint-plugin-vue': '*',
     },
   });
   api.injectImports(
