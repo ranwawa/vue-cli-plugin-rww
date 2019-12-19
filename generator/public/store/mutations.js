@@ -9,9 +9,5 @@ import { header } from '../api/request';
 
 export default {
   // 设置用户信息
-  setUserInfo(state, value) {
-    state.userInfo = value;
-    header.token = value.token;
-    uni.setStorageSync('user-info', value);
-  },
+  setUserInfo(state, value) { },
 };
