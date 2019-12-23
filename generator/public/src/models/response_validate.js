@@ -14,6 +14,13 @@ const DEFAULTS = {
   Object: {},
   Array: [],
 };
+const HTTP_ERRORS = {
+  400: '服务器验证失败,请稍后再试',
+  403: '禁止该请求方法,请稍后再试',
+  404: '未找到指定接口,请稍后再试',
+  500: '服务器内部异常,请稍后再试',
+  502: '服务器正在维护,请稍后再试',
+};
 /**
  * 获取对象的类型
  * @param value {object}
@@ -27,22 +34,32 @@ function getType(value) {
  * 验证网络层错误
  */
 function validateNetWork(res) {
-  console.log(res);
+  let errMsg = err.message || err.errorMsg || '';
+  let result = '未知异常,请稍后再试';
+  if (errMsg.includes('request:fail')) {
+    // todo 这里要加上网络状态判断
+    result = '连接失败,请打开wifi或数据连接';
+  } else if (errMsg.includes('abort')) {
+    result = true;
+  }
+  return result;
 }
 /**
  * 验证HTTP层错误
- * @param data
+ * @param statusCode
+ * @param err
  */
-function validateHTTP(data) {
-  console.log(data);
+function validateHTTP(statusCode, err) {
+  return HTTP_ERRORS[statusCode] || `未知异常${statusCode},请稍后再试`;
 }
 /**
  * 验证服务端错误
- * @param statusCode {number} http响应状态码
+ * @param code
  * @param data {object} http响应数据
  */
-function validateServer(statusCode, data) {
-  console.log(statusCode, data);
+function validateServer(code, data) {
+  // 这里只要排除登陆失败的情况,统一轻提示处理就行了
+  return data.message;
 }
 /**
  * 验证正常返回的情况
