@@ -53,6 +53,9 @@ module.exports = (api = {}, options, presets) => {
   }
   // 常用包
   extendPackage({
+    dependencies: {
+      'lodash.pick': '*',
+    },
     devDependencies: {
       'vuex': '*',
       'node-sass': '*',

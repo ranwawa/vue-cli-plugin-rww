@@ -4,7 +4,18 @@
  * @desc 业务配置文件
  * @remark 配置公共基础信息,只和业务数据有关
  */
-
+/**
+ * ajax配置
+ * @type {{isValidateRequest: boolean, isValidateResponse: boolean}}
+ */
+const ajaxConfig = {
+  // 是否验证请求模型
+  isValidateRequest: true,
+  // 是否验证响应模型
+  isValidateResponse: true,
+  // 是否启用loading框
+  isEnableLoading: true,
+};
 const configCollection = {
   // 微信小程序
   'mp-weixin': {
@@ -81,3 +92,6 @@ function Config(proc) {
   return Object.assign(res, comm);
 }
 export default new Config(process.env);
+export {
+  ajaxConfig,
+};
