@@ -1,0 +1,30 @@
+{
+  "name": "vue-cli-plugin-rww",
+  "version": "1.0.0",
+  "description": "vue项目初始化文件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ranwawa/vue-cli-plugin-rww.git"
+  },
+  "keywords": [
+    "没有关键字"
+  ],
+  "author": "冉娃娃",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ranwawa/vue-cli-plugin-rww/issues"
+  },
+  "homepage": "https://github.com/ranwawa/vue-cli-plugin-rww#readme",
+  "devDependencies": {
+    "husky": "^3.1.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm publish"
+    }
+  }
+}
