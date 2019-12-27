@@ -4,5 +4,5 @@
  * @desc 没有index.js，居然无法启动
  * @remark
  */
- 
- 
+
+module.exports = () => {};
