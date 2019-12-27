@@ -31,7 +31,7 @@ module.exports = {
         .use('style-resource')
         .loader('style-resources-loader')
         .options({
-          patterns: ['rww-sass/_index.scss'],
+          patterns: ['node_modules/rww-sass/_index.scss'],
         });
     });
     // 增加环境变量信息
