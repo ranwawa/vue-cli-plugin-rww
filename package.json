@@ -21,10 +21,5 @@
   "homepage": "https://github.com/ranwawa/vue-cli-plugin-rww#readme",
   "devDependencies": {
     "husky": "^3.1.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-push": "npm version patch \n npm publish"
-    }
   }
 }
