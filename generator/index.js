@@ -7,32 +7,28 @@
 const { EOL } = require('os');
 const fs = require('fs');
 const mainSplitFlat = /Vue\.config\.productionTip/;
+function importSomethingToMainJS(api, something = '') {
+  api.injectImports(
+    api.entryFile,
+    something,
+  );
+}
 /**
  * 注入内容到main.js文件
  * @param api {object}
- * @param importModel {string} 引入的模块
- * @param lineCodes {string} 插入的代码片断
+ * @param something
  */
-function injectSomeThingToMainJS(api, importModel, lineCodes = '') {
-  if (importModel) {
-    console.log(11111111111111111);
-    api.injectImports(
-      this,
-      api.entryFile,
-      // `import helloWorld from './components/HelloWorld.vue';`,
-      importModel,
-    );
-    if (lineCodes) {
-      api.afterInvoke(() => {
-        const contentMain = fs.readFileSync(api.entryFile, { encoding: 'utf-8' });
-        const lines = contentMain.split(/\r?\n/g);
-        const renderIndex = lines.findIndex(line => line.match(mainSplitFlat));
-        // lines[renderIndex] += `\n  Vue.use('hello-world', helloWorld);`;
-        lines[renderIndex] += `\n  Vue.use('hello-world', helloWorld);`;
-        lines[renderIndex] += lineCodes;
-        fs.writeFileSync(api.entryFile, lines.join(EOL), { encoding: 'utf-8' });
-      });
-    }
+function injectSomeThingToMainJS(api, something = '') {
+  if (something) {
+    api.afterInvoke(() => {
+      const contentMain = fs.readFileSync(
+        api.entryFile, { encoding: 'utf-8' });
+      const lines = contentMain.split(/\r?\n/g);
+      const renderIndex = lines.findIndex(line => line.match(mainSplitFlat));
+      // lines[renderIndex] += `\n  Vue.use('hello-world', helloWorld);`;
+      lines[renderIndex] += `\n${something}`;
+      fs.writeFileSync(api.entryFile, lines.join(EOL), { encoding: 'utf-8' });
+    });
   }
 }
 module.exports = (api = {}, options, presets) => {
@@ -44,31 +40,44 @@ module.exports = (api = {}, options, presets) => {
   // 具体项目的文件
   const { project } = options;
   render(`./${project}`);
-  switch (project) {
-    case 'uni_app': {
-      break;
-    }
-    default:
-      break;
-  }
   // 常用包
   extendPackage({
-    dependencies: {
-      'lodash.pick': '*',
-      'lodash.debounce': '*',
-    },
-    devDependencies: {
-      'vuex': '*',
-      'node-sass': '*',
-      'sass-loader': '*',
-      'style-resources-loader': '*',
-      'rww-sass': '*',
-      'eslint-plugin-vue': '*',
-    },
+    // dependencies: {
+    //   'lodash.pick': '*',
+    //   'lodash.debounce': '*',
+    // },
+    // devDependencies: {
+    //   'vuex': '*',
+    //   'node-sass': '*',
+    //   'sass-loader': '*',
+    //   'style-resources-loader': '*',
+    //   'rww-sass': '*',
+    //   'eslint-plugin-vue': '*',
+    // },
   });
+  [
+    `import store from '@/store';`,
+    `import * as api from '@/api';`,
+    `import rwwBtn from '@/components/rww_btn.vue';`,
+    `import rwwIcon from '@/components/rww_icon.vue';`,
+    `import rwwField from '@/components/rww_field.vue';`,
+    `import extend_uni from '@/assets/js/extend_uni';`,
+    `import extend_vue from '@/assets/js/extend_vue';`,
+  ].forEach(ele => {
+    importSomethingToMainJS(api, ele);
+  });
+};
+module.exports.hooks = (api) => {
+  const codeList = [
+    `extend_vue(Vue);`,
+    `Vue.prototype.$api = $api;`,
+    `Vue.prototype.$store = store;`,
+    `Vue.component('zmn-btn', zmnBtn);`,
+    `Vue.component('zmn-icon', zmnIcon);`,
+    `Vue.component('zmn-field', zmnField);`,
+  ];
   injectSomeThingToMainJS(
     api,
-    `import extend_uni from './assets/js/extend_uni'`,
+    codeList.join('\n'),
   );
 };
- 
