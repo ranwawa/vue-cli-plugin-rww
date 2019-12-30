@@ -1,9 +1,8 @@
 import {
-  default as config, ajaxconfig,
-} from '../config';
-import requestValidate from '../../../public/src/models/request_validate';
-import * as responseValidate
-  from '../../../public/src/models/response_validate';
+  default as config, ajaxConfig,
+} from '@/config';
+import requestValidate from '@/models/request_validate';
+import * as responseValidate from '@/models/response_validate';
 // 公共请求头
 export const header = {
   token: config.token,
@@ -14,7 +13,7 @@ export const header = {
   cityName: '%e9%87%8d%e5%ba%86%e5%b8%82',
 };
 function baseResponseValidate(result, func, ...param) {
-  if (ajaxconfig.isValidateResponse) {
+  if (ajaxConfig.isValidateResponse) {
     const validateResult = func(...param);
     if (typeof validateResult === 'string') {
       result[0] = new Error(validateResult);
@@ -26,17 +25,18 @@ const request = (options) => {
   const {
     url = '',
     data = {},
-    model = null,
+    requestModel = null,
+    responseModel = null,
     method = 'GET',
   } = options;
   const {
     isValidateRequest,
     isValidateResponse,
     isEnableLoading,
-  } = ajaxconfig;
+  } = ajaxConfig;
   // 请求验证
   if (isValidateRequest) {
-    const validateResult = requestValidate(model, data);
+    const validateResult = requestValidate(requestModel, data);
     if (typeof validateResult === 'string') {
       // todo 这里需要抛出统一的错误验证
       return Promise.resolve([new Error(validateResult), null]);
@@ -44,7 +44,7 @@ const request = (options) => {
   }
   // loading框
   if (isEnableLoading && !data.isHideLoading) {
-    uni.showToasting({
+    uni.showToast({
       icon: 'none',
       title: '正在加载',
     });
@@ -61,13 +61,13 @@ const request = (options) => {
           let result = [null, res];
           switch (statusCode) {
             case 200: {
-              const { code } = data.code;
-              switch (code) {
+              const { status } = data;
+              switch (status) {
                 case 200: {
                   result = baseResponseValidate(
                     result,
                     responseValidate.validateOk,
-                    model,
+                    requestModel,
                     data,
                   );
                   break;
@@ -76,7 +76,7 @@ const request = (options) => {
                   result = baseResponseValidate(
                     result,
                     responseValidate.validateServer,
-                    code,
+                    status,
                     data,
                   );
                   break;

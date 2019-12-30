@@ -14,23 +14,23 @@ const mainSplitFlat = /Vue\.config\.productionTip/;
  * @param lineCodes {string} 插入的代码片断
  */
 function injectSomeThingToMainJS(api, importModel, lineCodes = '') {
-  let { entryFile, afterInvoke } = api;
-  const { readFileSync, writeFileSync } = fs;
   if (importModel) {
+    console.log(11111111111111111);
     api.injectImports(
       this,
-      entryFile,
+      api.entryFile,
       // `import helloWorld from './components/HelloWorld.vue';`,
       importModel,
     );
     if (lineCodes) {
-      afterInvoke(() => {
-        const contentMain = readFileSync(entryFile, { encoding: 'utf-8' });
+      api.afterInvoke(() => {
+        const contentMain = fs.readFileSync(api.entryFile, { encoding: 'utf-8' });
         const lines = contentMain.split(/\r?\n/g);
         const renderIndex = lines.findIndex(line => line.match(mainSplitFlat));
         // lines[renderIndex] += `\n  Vue.use('hello-world', helloWorld);`;
+        lines[renderIndex] += `\n  Vue.use('hello-world', helloWorld);`;
         lines[renderIndex] += lineCodes;
-        writeFileSync(entryFile, lines.join(EOL), { encoding: 'utf-8' });
+        fs.writeFileSync(api.entryFile, lines.join(EOL), { encoding: 'utf-8' });
       });
     }
   }
@@ -55,6 +55,7 @@ module.exports = (api = {}, options, presets) => {
   extendPackage({
     dependencies: {
       'lodash.pick': '*',
+      'lodash.debounce': '*',
     },
     devDependencies: {
       'vuex': '*',
@@ -67,7 +68,7 @@ module.exports = (api = {}, options, presets) => {
   });
   injectSomeThingToMainJS(
     api,
-    `import extend_uni from '@/assets/js/extend_uni'`,
+    `import extend_uni from './assets/js/extend_uni'`,
   );
 };
  

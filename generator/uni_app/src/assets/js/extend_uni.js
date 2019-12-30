@@ -72,6 +72,27 @@ uni.openSetting = function openS(scope) {
     })
     .catch(err => Promise.reject(err));
 };
+uni.showToastText = function (title) {
+  return uni.showToast({
+    title,
+    icon: 'none',
+  });
+};
+uni.navigateToPage = function (url) {
+  return uni.navigateTo({
+    url,
+  });
+};
+uni.redirectToPage = function (url) {
+  return uni.redirectTo({
+    url,
+  });
+};
+uni.switchTabPage = function (url) {
+  return uni.switchTab({
+    url,
+  });
+};
 // todo 路由功能要单独抽离成一个组件
 // 路由跳转注入
 // 白名单

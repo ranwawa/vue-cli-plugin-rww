@@ -18,42 +18,15 @@ const ajaxConfig = {
 };
 const configCollection = {
   // 微信小程序
-  'mp-weixin': {
-    appId: {
-      dev: 'wx31d98d61754f19db',
-      test: 'wx31d98d61754f19db',
-      build: 'wx31d98d61754f19db',
-    },
-    receiveEntranceId: {
-      dev: '7102',
-      test: '7102',
-      build: '7102',
-    },
-  },
+  'mp-weixin': {},
   // 网页
-  h5: {
-    appId: {
-      dev: '1',
-      test: '2',
-      build: '3',
-    },
-    receiveEntranceId: {
-      dev: '7101',
-      test: '7101',
-      build: '7101',
-    },
-  },
+  h5: {},
   // 公共配置
   comm: {
     apiUrl: { // 接口地址
       dev: 'http://192.168.99.8:11243/',
       test: 'https://test-api-saas.xiujiadian.com/',
       build: 'https://api-saas.xiujiadian.com/',
-    },
-    shopId: {
-      dev: '130',
-      test: '314',
-      build: '3',
     },
     token: {
       dev: 'bfb78ab1ca234e55a8929a0f0c34bf32',
