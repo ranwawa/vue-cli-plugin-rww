@@ -72,9 +72,9 @@ module.exports.hooks = (api) => {
     `extend_vue(Vue);`,
     `Vue.prototype.$api = $api;`,
     `Vue.prototype.$store = store;`,
-    `Vue.component('rww-btn', zmnBtn);`,
-    `Vue.component('rww-icon', zmnIcon);`,
-    `Vue.component('rww-field', zmnField);`,
+    `Vue.component('rww-btn', rwwBtn);`,
+    `Vue.component('rww-icon', rwwIcon);`,
+    `Vue.component('rww-field', rwwField);`,
   ];
   injectSomeThingToMainJS(
     api,
