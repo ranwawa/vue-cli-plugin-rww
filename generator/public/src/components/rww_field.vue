@@ -4,12 +4,12 @@
 <!-- remark:  -->
 <template>
   <view
-    class="zmn-field"
+    class="rww-field"
     @click="$emit('click')"
   >
     <view
       v-if="title"
-      class="zmn-field-title"
+      class="rww-field-title"
     >
       {{ title }}
     </view>
@@ -18,18 +18,18 @@
       :class="leftIcon"
       class="iconfont icon-left"
     ></text>
-    <view class="zmn-field-wrapper">
+    <view class="rww-field-wrapper">
       <view
         v-if="readonly"
-        :class="{'zmn-field-readonly_placeholder': !value}"
-        class="zmn-field-readonly"
+        :class="{'rww-field-readonly_placeholder': !value}"
+        class="rww-field-readonly"
       >
         {{ value || placeholder }}
       </view>
       <input
         v-else
         :class="computedInputClass"
-        class="zmn-field-input"
+        class="rww-field-input"
         :value="value"
         :type="type"
         :disabled="disabled"
@@ -45,7 +45,7 @@
       />
       <view
         v-show="isShowClose"
-        class="zmn-field-closer iconfont icon-clear-solid"
+        class="rww-field-closer iconfont icon-clear-solid"
         @click="$emit('input', '')"
       />
     </view>
@@ -58,7 +58,7 @@
 </template>
 <script>
 export default {
-  name: 'zmn-field',
+  name: 'rww-field',
   model: {
     prop: 'value',
     event: 'input',
@@ -141,9 +141,9 @@ export default {
     // 输入框样式
     computedInputClass() {
       const style = {
-        'zmn-field-input_disabled': this.disabled,
-        'zmn-field-input_clear': this.isShowClose,
-        'zmn-field-input_leftIcon': this.leftIcon,
+        'rww-field-input_disabled': this.disabled,
+        'rww-field-input_clear': this.isShowClose,
+        'rww-field-input_leftIcon': this.leftIcon,
       };
       return Object
         .entries(style)
@@ -171,7 +171,7 @@ export default {
   lang="scss"
   scoped
 >
-  .zmn-field {
+  .rww-field {
     @include flex-row;
     position: relative;
     font-size: 0; /* 兼容支付宝小程序 要不然input和view下边会有空隙 */

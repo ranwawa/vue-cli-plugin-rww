@@ -3,20 +3,20 @@
 <!-- desc: 价格组件 -->
 <!-- remark:  -->
 <template>
-  <view class="zmn-price">
+  <view class="rww-price">
     ￥
-    <text class="zmn-price-integer">
+    <text class="rww-price-integer">
       {{ pInteger }}
     </text>
     .
-    <text class="zmn-price-float">
+    <text class="rww-price-float">
       {{ pFloat }}
     </text>
   </view>
 </template>
 <script>
 export default {
-  name: 'zmn-price',
+  name: 'rww-price',
   data() {
     return {
       pInteger: '',
@@ -54,7 +54,7 @@ export default {
   lang="scss"
   scoped
 >
-  .zmn-price {
+  .rww-price {
     color: $c-theme;
     font-weight: bold;
 

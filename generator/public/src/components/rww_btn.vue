@@ -6,7 +6,7 @@
   <button
     :class="computedClass"
     :style="computedStyle"
-    class="zmn-btn"
+    class="rww-btn"
     :open-type="openType"
     :withCredentials="withCredentials"
     @getuserinfo="$emit('getuserinfo', $event)"
@@ -24,7 +24,7 @@ const SIZE = {
   mini: 30,
 };
 export default {
-  name: 'zmn-btn',
+  name: 'rww-btn',
   data() {
     return {
       // 点击状态
@@ -90,7 +90,7 @@ export default {
   lang="scss"
   scoped
 >
-  .zmn-btn {
+  .rww-btn {
     @include linear-gradient;
     position: relative;
     z-index: 1;

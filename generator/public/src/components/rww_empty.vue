@@ -3,7 +3,7 @@
 <!-- desc: 缺省页面组件 -->
 <!-- remark:  -->
 <template>
-  <view class="zmn-empty">
+  <view class="rww-empty">
     <view class="empty-img">
       <image
         class="empty-img-front"
@@ -18,7 +18,7 @@
 <script>
 /* eslint-disable max-len */
 export default {
-  name: 'zmn-empty',
+  name: 'rww-empty',
   props: {
     title: {
       type: String,
@@ -35,7 +35,7 @@ export default {
   lang="scss"
   scoped
 >
-  .zmn-empty {
+  .rww-empty {
     @include flex-column;
     align-items: center;
     justify-content: center;

@@ -6,7 +6,7 @@
   <text
     :class="computedIcon"
     :style="computedStyle"
-    class="zmn-icon"
+    class="rww-icon"
   ></text>
 </template>
 <script>

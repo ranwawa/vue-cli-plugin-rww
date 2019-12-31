@@ -10,12 +10,12 @@
     <view @click="handleChange(-1)">
       <view class="iconfont icon-jian"></view>
     </view>
-    <zmn-field
+    <rww-field
       type="number"
       :value="value"
       :clear-able="false"
       @input="handleChange($event)"
-    ></zmn-field>
+    ></rww-field>
     <view
       class="iconfont icon-jia"
       @click="handleChange(1)"
@@ -24,7 +24,7 @@
 </template>
 <script>
 export default {
-  name: 'zmn-number',
+  name: 'rww-number',
   props: {
     value: {
       type: Number,
