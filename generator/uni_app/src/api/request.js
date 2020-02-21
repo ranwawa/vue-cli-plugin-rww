@@ -1,27 +1,21 @@
-import {
-  default as config, ajaxConfig,
-} from '@/config';
-import requestValidate from '@/models/request_validate';
-import * as responseValidate from '@/models/response_validate';
+import { default as config, ajaxConfig } from '@/config';
+import schema from 'async-validator';
+import * as responseValidate from './response_validate';
 // 公共请求头
 export const header = {
   token: config.token,
-  shopId: config.shopId,
-  provinceId: '500000',
-  provinceName: '%e9%87%8d%e5%ba%86%e5%b8%82',
-  cityId: '500103',
-  cityName: '%e9%87%8d%e5%ba%86%e5%b8%82',
 };
 function baseResponseValidate(result, func, ...param) {
+  let validateResult;
   if (ajaxConfig.isValidateResponse) {
-    const validateResult = func(...param);
-    if (typeof validateResult === 'string') {
-      result[0] = new Error(validateResult);
+    validateResult = func(...param);
+    if (validateResult[0]) {
+      $console(validateResult);
     }
   }
   return result;
 }
-const request = (options) => {
+const request = async (options) => {
   const {
     url = '',
     data = {},
@@ -29,17 +23,19 @@ const request = (options) => {
     responseModel = null,
     method = 'GET',
   } = options;
-  const {
-    isValidateRequest,
-    isValidateResponse,
-    isEnableLoading,
-  } = ajaxConfig;
+  const { isValidateRequest, isValidateResponse, isEnableLoading } = ajaxConfig;
   // 请求验证
   if (isValidateRequest) {
-    const validateResult = requestValidate(requestModel, data);
-    if (typeof validateResult === 'string') {
-      // todo 这里需要抛出统一的错误验证
-      return Promise.resolve([new Error(validateResult), null]);
+    const validator = new schema(requestModel);
+    const result = await validator.validate(data, { first: true });
+    if (result) {
+      const [error] = result.errors;
+      uni.showShowModal({
+        title: '提示',
+        showCancel: false,
+        content: error.message,
+      });
+      return Promise.resolve([new Error(error), null]);
     }
   }
   // loading框
@@ -65,19 +61,17 @@ const request = (options) => {
               switch (status) {
                 case 200: {
                   result = baseResponseValidate(
-                    result,
                     responseValidate.validateOk,
-                    requestModel,
-                    data,
+                    responseModel,
+                    data.data,
                   );
                   break;
                 }
                 default: {
                   result = baseResponseValidate(
-                    result,
                     responseValidate.validateServer,
                     status,
-                    data,
+                    data.data,
                   );
                   break;
                 }
@@ -86,7 +80,6 @@ const request = (options) => {
             }
             default: {
               result = baseResponseValidate(
-                result,
                 responseValidate.validateHTTP,
                 statusCode,
                 res,
@@ -99,7 +92,6 @@ const request = (options) => {
           // todo 这里也需要统一的错误验证包装一下
           let result = [err, null];
           result = baseResponseValidate(
-            result,
             responseValidate.validateNetWork,
             err,
           );

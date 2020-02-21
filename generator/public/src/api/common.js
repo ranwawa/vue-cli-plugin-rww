@@ -1,6 +1,5 @@
 import request from './request';
-import requestModels from '../models/request_models';
-import responseModels from '../models/response_models';
+import { requestModel, responseModel } from '../models';
 
 const common = {
   // 根据经纬度获取当前所在位置
@@ -9,8 +8,8 @@ const common = {
       data,
       url: 'area/getCurrentArea',
       method: 'GET',
-      requestModel: requestModels.getCurrentArea,
-      responseModel: responseModels.getCurrentArea,
+      requestModel: requestModel.objectName,
+      responseModel: responseModel.objectName,
     });
   },
 };

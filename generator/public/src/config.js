@@ -23,13 +23,14 @@ const configCollection = {
   h5: {},
   // 公共配置
   comm: {
-    apiUrl: { // 接口地址
-      dev: 'http://192.168.99.8:11243/',
-      test: 'https://test-api-saas.xiujiadian.com/',
-      build: 'https://api-saas.xiujiadian.com/',
+    // 接口地址
+    apiUrl: {
+      dev: '',
+      test: '',
+      build: '',
     },
     token: {
-      dev: 'bfb78ab1ca234e55a8929a0f0c34bf32',
+      dev: '',
       test: '',
       build: '',
     },

@@ -1,6 +1,5 @@
 import _isError from 'lodash.iserror';
 import { environment } from './get_environment';
-import store from '../../store';
 
 /**
  * 输出/上报错误日志
@@ -50,9 +49,9 @@ function $console(param) {
   if (typeof param === 'string') {
     param = {
       err: new Error(param),
-      message: '系统接口调用异常',
+      message: param,
       isLog: true,
-      isAlert: false,
+      isAlert: true,
     };
   } else if (_isError(param)) {
     param = {
@@ -62,7 +61,6 @@ function $console(param) {
       isAlert: true,
     };
   }
-  const self = this;
   const {
     err = new Error('没有错误捕获'),
     options = {},
@@ -71,7 +69,7 @@ function $console(param) {
     message = '',
     status = '',
   } = param;
-  if (!self.$isAlerting && isAlert) {
+  if (isAlert) {
     uni
       .showModal({
         title: '提示',
@@ -80,21 +78,14 @@ function $console(param) {
       })
       .then(() => {
         const timer = setTimeout(() => {
-          self.$isAlerting = false;
           clearTimeout(timer);
         }, 2000);
       });
   }
   if (isLog) {
-    trackError(err, options, this, status);
+    // trackError(err, options, this, status);
   }
 }
-
-export default function extendFeatures(vm) {
-  Object.assign(
-    vm.prototype,
-    {
-      $console,
-    },
-  );
-}
+export {
+  $console,
+};

@@ -24,7 +24,7 @@ uni.showModal = function showM(options) {
         return (res);
       });
   }
-  return Promise.reject();
+  return Promise.reject('同时只能打开一个弹框');
 };
 uni.showLoading = function showL(options) {
   if (uni.$isLoading === undefined || uni.$isLoading === false) {

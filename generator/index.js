@@ -42,39 +42,35 @@ module.exports = (api = {}, options, presets) => {
   render(`./${project}`);
   // 常用包
   extendPackage({
-    // dependencies: {
-    //   'lodash.pick': '*',
-    //   'lodash.debounce': '*',
-    // },
-    // devDependencies: {
-    //   'vuex': '*',
-    //   'node-sass': '*',
-    //   'sass-loader': '*',
-    //   'style-resources-loader': '*',
-    //   'rww-sass': '*',
-    //   'eslint-plugin-vue': '*',
-    // },
+    dependencies: {
+      'lodash.pick': '*',
+      'lodash.debounce': '*',
+      'lodash.iserror': '*',
+      'async-validator': '^3.2.3',
+    },
+    devDependencies: {
+      'vuex': '*',
+      'node-sass': '*',
+      'sass-loader': '*',
+      'style-resources-loader': '*',
+      'rww-sass': '*',
+      'eslint-plugin-vue': '*',
+    },
   });
   [
     `import store from '@/store';`,
     `import * as api from '@/api';`,
-    `import rwwBtn from '@/components/rww_btn.vue';`,
-    `import rwwIcon from '@/components/rww_icon.vue';`,
-    `import rwwField from '@/components/rww_field.vue';`,
-    `import extend_uni from '@/assets/js/extend_uni';`,
-    `import extend_vue from '@/assets/js/extend_vue';`,
+    `import extend_uni from '@/assets/js/uni_decorator';`,
+    `import { $console } from '@/assets/js/vue_prototype';`,
   ].forEach(ele => {
     importSomethingToMainJS(api, ele);
   });
 };
 module.exports.hooks = (api) => {
   const codeList = [
-    `extend_vue(Vue);`,
     `Vue.prototype.$api = $api;`,
     `Vue.prototype.$store = store;`,
-    `Vue.component('rww-btn', rwwBtn);`,
-    `Vue.component('rww-icon', rwwIcon);`,
-    `Vue.component('rww-field', rwwField);`,
+    `Vue.prototype.$console = $console;`,
   ];
   injectSomeThingToMainJS(
     api,
