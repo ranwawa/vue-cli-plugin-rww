@@ -1,6 +1,6 @@
 {
   "name": "vue-cli-plugin-rww",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "vue项目初始化文件",
   "main": "index.js",
   "scripts": {
