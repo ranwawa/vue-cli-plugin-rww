@@ -1,5 +1,5 @@
 import request from './request';
-import { requestModel, responseModel } from '../models';
+import { requestModel, responseModel } from './models';
 
 const common = {
   // 根据经纬度获取当前所在位置

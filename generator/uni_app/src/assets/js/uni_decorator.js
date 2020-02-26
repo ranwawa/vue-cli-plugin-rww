@@ -1,12 +1,10 @@
-import store from '../../store';
-
 /**
  * @author 冉娃娃
  * @since 2019/12/10
  * @desc 扩展uni原生方法
  * @remark
  */
-
+import store from '@/store';
 
 const {
   showModal,

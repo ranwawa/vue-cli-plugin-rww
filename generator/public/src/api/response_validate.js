@@ -4,7 +4,7 @@
  * @desc 响应模型验证
  * @remark
  */
-import _pick from 'lodash.pick';
+import _ from 'lodash';
 
 const { toString } = Object.prototype;
 const DEFAULTS = {
@@ -73,7 +73,7 @@ function validateOk(model, data) {
   if (model.type.name !== getType(data)) {
     return '返回的数据格式有误';
   }
-  const cleanedData = _pick(
+  const cleanedData = _.pick(
     data,
     Object
       .keys(model)

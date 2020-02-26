@@ -1,4 +1,4 @@
-import _isError from 'lodash.iserror';
+import _ from 'lodash';
 import { environment } from './get_environment';
 
 /**
@@ -53,7 +53,7 @@ function $console(param) {
       isLog: true,
       isAlert: true,
     };
-  } else if (_isError(param)) {
+  } else if (_.isNativeError(param)) {
     param = {
       err: param,
       message: `${param.name}:${param.message}`,
