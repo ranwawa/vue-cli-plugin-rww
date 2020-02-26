@@ -40,21 +40,20 @@ module.exports = (api = {}, options, presets) => {
   // 具体项目的文件
   const { project } = options;
   render(`./${project}`);
-  // 常用包
+  // 公共包
   extendPackage({
     dependencies: {
-      'lodash.pick': '*',
-      'lodash.debounce': '*',
-      'lodash.iserror': '*',
+      'vuex': '*',
+      'lodash': '*',
       'async-validator': '^3.2.3',
     },
     devDependencies: {
-      'vuex': '*',
+      'rww-sass': '*',
       'node-sass': '*',
       'sass-loader': '*',
-      'style-resources-loader': '*',
-      'rww-sass': '*',
       'eslint-plugin-vue': '*',
+      'style-resources-loader': '*',
+      "@vue/eslint-config-airbnb": "*",
     },
   });
   [

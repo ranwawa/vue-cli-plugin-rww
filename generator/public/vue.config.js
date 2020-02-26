@@ -4,16 +4,15 @@
  * @desc
  * @remark
  */
-
 /* eslint-disable camelcase */
 const path = require('path');
-
 const {
   npm_lifecycle_event,
   VUE_APP_PLATFORM,
 } = process.env;
-const devtool = npm_lifecycle_event
-  .includes('build') ? false : 'inline-source-map';
+const devtool = npm_lifecycle_event.includes('build')
+  ? false
+  : 'inline-source-map';
 module.exports = {
   chainWebpack: (config) => {
     // 引入公共scss
