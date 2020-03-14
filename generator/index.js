@@ -45,7 +45,7 @@ module.exports = (api = {}, options, presets) => {
     dependencies: {
       'vuex': '*',
       'lodash': '*',
-      'async-validator': '^3.2.3',
+      'async-validator': '*',
     },
     devDependencies: {
       'rww-sass': '*',
@@ -54,6 +54,10 @@ module.exports = (api = {}, options, presets) => {
       'eslint-plugin-vue': '*',
       'style-resources-loader': '*',
       "@vue/eslint-config-airbnb": "*",
+      'husky': '*',
+      'prettier':'*',
+      'pretty-quick': '*',
+      "eslint-config-prettier": '*',
     },
   });
   [

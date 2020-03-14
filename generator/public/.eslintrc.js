@@ -19,8 +19,10 @@ module.exports = {
   },
   'plugins': [
     'vue',
+    'prettier',
   ],
   'rules': {
+    "prettier/prettier": "error",
     'import/no-extraneous-dependencies': 0,
     'no-console': 'off',
     'no-unused-vars': 'off',
