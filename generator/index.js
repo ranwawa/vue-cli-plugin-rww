@@ -58,6 +58,11 @@ module.exports = (api = {}, options, presets) => {
       'prettier':'*',
       'pretty-quick': '*',
       "eslint-config-prettier": '*',
+      "stylelint-prettier": "*",
+      "stylelint-config-prettier": '*',
+      "stylelint": "*",
+      "stylelint-config-standard": "*",
+      "stylelint-webpack-plugin": "*",
     },
   });
   [
