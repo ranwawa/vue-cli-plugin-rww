@@ -4,23 +4,28 @@
  * @desc 模板选择文件
  * @remark
  */
-
+const PROJECT = {
+  UNI: 'uni-app',
+  NUXT: 'nuxt',
+};
+const TYPE = {
+  LIST: 'list',
+};
 module.exports = [
   {
-    type: 'list',
+    type: TYPE.LIST,
     name: 'project',
-    message: '哈子,选一个项目模板',
-    default: 'uni_app',
+    message: 'select a template',
+    default: PROJECT.UNI,
     choices: [
       {
-        name: 'uni-app模板',
-        value: 'uni_app',
+        name: PROJECT.UNI,
+        value: PROJECT.UNI,
       },
       {
-        name: 'nuxt模板',
-        value: 'nuxt',
+        name: PROJECT.NUXT,
+        value: PROJECT.NUXT,
       },
     ],
   },
 ];
- 

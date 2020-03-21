@@ -1,0 +1,30 @@
+module.exports = {
+  'plugins': [ 'vue', 'prettier', ],
+  extends: ['plugin:vue/recommended', 'prettier', 'airbnb-base'],
+  'globals': {
+    'ap': true,
+    'my': true,
+    'uni': true,
+    'getCurrentPages': true,
+    'vconsole': true,
+    'Atomics': 'readonly',
+    'SharedArrayBuffer': 'readonly',
+    'arguments': true,
+  },
+  'rules': {
+    "prettier/prettier": "error",
+  },
+  root: true,
+  env: {
+    browser: true,
+    node: true,
+    commonjs: true,
+    es6: true,
+    es2017: true,
+    es2020: true,
+    worker: true,
+    jest: true,
+    jquery: true,
+    mongo: true,
+  },
+};

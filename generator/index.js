@@ -6,79 +6,69 @@
  */
 const { EOL } = require('os');
 const fs = require('fs');
-const mainSplitFlat = /Vue\.config\.productionTip/;
-function importSomethingToMainJS(api, something = '') {
-  api.injectImports(
-    api.entryFile,
-    something,
-  );
-}
-/**
- * 注入内容到main.js文件
- * @param api {object}
- * @param something
- */
-function injectSomeThingToMainJS(api, something = '') {
-  if (something) {
-    api.afterInvoke(() => {
-      const contentMain = fs.readFileSync(
-        api.entryFile, { encoding: 'utf-8' });
-      const lines = contentMain.split(/\r?\n/g);
-      const renderIndex = lines.findIndex(line => line.match(mainSplitFlat));
-      // lines[renderIndex] += `\n  Vue.use('hello-world', helloWorld);`;
-      lines[renderIndex] += `\n${something}`;
-      fs.writeFileSync(api.entryFile, lines.join(EOL), { encoding: 'utf-8' });
-    });
-  }
+const MAIN_SPLIT_FLAG = /Vue\.config\.productionTip/;
+const PACKAGES = {
+  scripts: {
+    'pretty-quick': 'pretty-quick --staged --check src/** --verbose',
+    'eslint': 'eslint src/**',
+  },
+  dependencies: {
+    'vuex': '*',
+    'lodash': '*',
+    'async-validator': '*',
+  },
+  devDependencies: {
+    'node-sass': '*',
+    'sass-loader': '*',
+    'rww-sass': '*',
+    'style-resources-loader': '*',
+    'eslint': '*',
+    'eslint-plugin-vue': '*',
+    'eslint-plugin-prettier': '*',
+    'eslint-plugin-import': '*',
+    'eslint-config-airbnb-base': '*',
+    'eslint-config-prettier': '*',
+    'husky': '*',
+    'prettier': '*',
+    'pretty-quick': '*',
+    'stylelint': '*',
+    'stylelint-prettier': '*',
+    'stylelint-config-prettier': '*',
+    'stylelint-config-standard': '*',
+    'stylelint-webpack-plugin': '*',
+  },
+};
+const MAIN_INJECTIONS = [
+  `import store from '@/store';`,
+  `import uniDecorator from '@/assets/js/uni_decorator';`,
+];
+const TEMPLATE_PUBLIC = 'public';
+const TEMPLATE_ROOT = './';
+function injectSomeThingToMainJS(api, something) {
+  api.afterInvoke(() => {
+    const contentMain = fs.readFileSync(
+      api.entryFile,
+      { encoding: 'utf-8' },
+    );
+    const lines = contentMain.split(/\r?\n/g);
+    const renderIndex = lines.findIndex(line => line.match(MAIN_SPLIT_FLAG));
+    lines[renderIndex] += `\n${something}`;
+    fs.writeFileSync(api.entryFile, lines.join(EOL), { encoding: 'utf-8' });
+  });
 }
 module.exports = (api = {}, options, presets) => {
-  let { render, extendPackage } = api;
-  render = render.bind(api);
-  extendPackage = extendPackage.bind(api);
-  // 公共文件
-  render('./public');
-  // 具体项目的文件
-  const { project } = options;
-  render(`./${project}`);
-  // 公共包
-  extendPackage({
-    dependencies: {
-      'vuex': '*',
-      'lodash': '*',
-      'async-validator': '*',
-    },
-    devDependencies: {
-      'rww-sass': '*',
-      'node-sass': '*',
-      'sass-loader': '*',
-      'eslint-plugin-vue': '*',
-      'style-resources-loader': '*',
-      "@vue/eslint-config-airbnb": "*",
-      'husky': '*',
-      'prettier':'*',
-      'pretty-quick': '*',
-      "eslint-config-prettier": '*',
-      "stylelint-prettier": "*",
-      "stylelint-config-prettier": '*',
-      "stylelint": "*",
-      "stylelint-config-standard": "*",
-      "stylelint-webpack-plugin": "*",
-    },
-  });
-  [
-    `import store from '@/store';`,
-    `import * as api from '@/api';`,
-    `import extend_uni from '@/assets/js/uni_decorator';`,
-    `import { $console } from '@/assets/js/vue_prototype';`,
-  ].forEach(ele => {
-    importSomethingToMainJS(api, ele);
-  });
+  // creating new template
+  api.render(`${TEMPLATE_ROOT}${TEMPLATE_PUBLIC}`);
+  api.render(`${TEMPLATE_ROOT}${options.project}`);
+  // extending package
+  api.extendPackage(PACKAGES);
+  // changing main js
+  MAIN_INJECTIONS.forEach(ele => api.injectImports(api.entryFile, ele));
 };
 module.exports.hooks = (api) => {
   const codeList = [
-    `Vue.prototype.$api = $api;`,
     `Vue.prototype.$store = store;`,
-    `Vue.prototype.$console = $console;`,
+    'uniDecorator();'
   ];
   injectSomeThingToMainJS(
     api,

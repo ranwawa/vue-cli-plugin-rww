@@ -108,5 +108,5 @@ typings/
 .idea/modules.xml
 .idea/vcs.xml
 .idea/vue-cli-plugin-rww.iml
-generator/uni_app/assets/
+generator/uni-app/assets/
 /package-lock.json
