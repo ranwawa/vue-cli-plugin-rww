@@ -1,106 +1,78 @@
-import { default as config, ajaxConfig } from '@/config';
-import schema from 'async-validator';
-import * as responseValidate from './response_validate';
+/** @format */
+
+import Schema from 'async-validator';
+import { config, ajaxConfig } from '../config';
+import { HTTP_STATUS, TYPE } from '../assets/js/constants';
+
+const PREFIX = /^http/;
 // 公共请求头
 export const header = {
   token: config.token,
 };
-function baseResponseValidate(result, func, ...param) {
-  let validateResult;
-  if (ajaxConfig.isValidateResponse) {
-    validateResult = func(...param);
-    if (validateResult[0]) {
-      $console(validateResult);
+async function validateRequest(requestModel, data) {
+  try {
+    const { isValidateRequest } = ajaxConfig;
+    if (isValidateRequest && !data.isDisableValidate) {
+      const validator = new Schema(requestModel);
+      await validator.validate(data, { first: true });
+      return [null, data];
     }
+    return [null, data];
+  } catch (e) {
+    const [error] = e.errors;
+    uni.showModalText(error.message);
+    return [error, null];
   }
-  return result;
 }
-const request = async (options) => {
+function validateResponse(res) {
+  return [null, res];
+}
+function handleTCPError(err) {
+  // todo 这里需要区分各种不同的tcp错误状态
+  return [err, null];
+}
+function handleHTTPError(res) {
+  return [res, null];
+}
+function handleServerError(res) {
+  return [res, null];
+}
+function showLoading(isDisableLoading) {
+  const { isEnableLoading } = ajaxConfig;
+  if (isEnableLoading && !isDisableLoading) {
+    uni.showLoading({ title: '正在加载' });
+  }
+}
+const request = async options => {
   const {
     url = '',
     data = {},
     requestModel = null,
-    responseModel = null,
-    method = 'GET',
+    method = TYPE.GET,
   } = options;
-  const { isValidateRequest, isValidateResponse, isEnableLoading } = ajaxConfig;
-  // 请求验证
-  if (isValidateRequest) {
-    const validator = new schema(requestModel);
-    const result = await validator.validate(data, { first: true });
-    if (result) {
-      const [error] = result.errors;
-      uni.showShowModal({
-        title: '提示',
-        showCancel: false,
-        content: error.message,
-      });
-      return Promise.resolve([new Error(error), null]);
+  let [err, res] = await validateRequest(requestModel, data);
+  if (err) {
+    return [err, null];
+  }
+  showLoading(data.isDisableLoading);
+  [err, res] = await uni.request({
+    method,
+    header,
+    data,
+    url: PREFIX.test(url) ? url : `${config.apiUrl}${url}`,
+  });
+  uni.hideLoading();
+  if (err) {
+    handleTCPError(err);
+    return [err, res];
+  }
+  const resData = res.data;
+  if (res.statusCode === HTTP_STATUS.OK) {
+    if (resData.code === HTTP_STATUS.OK) {
+      return validateResponse(resData);
     }
+    return handleServerError(resData);
   }
-  // loading框
-  if (isEnableLoading && !data.isHideLoading) {
-    uni.showToast({
-      icon: 'none',
-      title: '正在加载',
-    });
-  }
-  function cb(resolve) {
-    uni.request(
-      {
-        method,
-        header,
-        data,
-        url: `${config.apiUrl}${url}`,
-        success(res) {
-          const { statusCode, data } = res;
-          let result = [null, res];
-          switch (statusCode) {
-            case 200: {
-              const { status } = data;
-              switch (status) {
-                case 200: {
-                  result = baseResponseValidate(
-                    responseValidate.validateOk,
-                    responseModel,
-                    data.data,
-                  );
-                  break;
-                }
-                default: {
-                  result = baseResponseValidate(
-                    responseValidate.validateServer,
-                    status,
-                    data.data,
-                  );
-                  break;
-                }
-              }
-              break;
-            }
-            default: {
-              result = baseResponseValidate(
-                responseValidate.validateHTTP,
-                statusCode,
-                res,
-              );
-            }
-          }
-          resolve(result);
-        },
-        fail(err) {
-          // todo 这里也需要统一的错误验证包装一下
-          let result = [err, null];
-          result = baseResponseValidate(
-            responseValidate.validateNetWork,
-            err,
-          );
-          resolve(result);
-        },
-        complete() {},
-      },
-    );
-  }
-  return new Promise(cb);
+  return handleHTTPError(res);
 };
 export default request;

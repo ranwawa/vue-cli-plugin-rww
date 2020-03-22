@@ -1,5 +1,3 @@
-import common from './common';
+/** @format */
 
-export {
-  common,
-};
+export * from './common';

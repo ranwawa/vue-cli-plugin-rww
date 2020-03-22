@@ -9,12 +9,13 @@ const fs = require('fs');
 const MAIN_SPLIT_FLAG = /Vue\.config\.productionTip/;
 const PACKAGES = {
   scripts: {
-    'pretty-quick': 'pretty-quick --staged --check src/** --verbose',
+    'pretty-quick': 'pretty-quick --staged --verbose',
     'eslint': 'eslint src/**',
   },
   dependencies: {
     'vuex': '*',
     'lodash': '*',
+    'uni-vant': '*',
     'async-validator': '*',
   },
   devDependencies: {
@@ -26,6 +27,7 @@ const PACKAGES = {
     'eslint-plugin-vue': '*',
     'eslint-plugin-prettier': '*',
     'eslint-plugin-import': '*',
+    'eslint-import-resolver-webpack': '*',
     'eslint-config-airbnb-base': '*',
     'eslint-config-prettier': '*',
     'husky': '*',
