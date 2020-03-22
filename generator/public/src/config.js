@@ -24,7 +24,7 @@ const configCollection = {
   comm: {
     // 接口地址
     apiUrl: {
-      development: '//dev-api.ranwawa.com/',
+      development: '/api/',
       test: '//test-api.ranwawa.com/',
       production: '//api.ranwawa.com/',
     },
