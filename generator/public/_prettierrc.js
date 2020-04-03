@@ -1,4 +1,5 @@
-// todo 这个要单独抽成一个npm包来管理
+/** @format */
+
 module.exports = {
   printWidth: 80,
   tabWidth: 2,
@@ -7,16 +8,16 @@ module.exports = {
   singleQuote: true,
   quoteProps: 'as-needed',
   jsxSingleQuote: true,
-  trailingComma: "es5",
+  trailingComma: 'es5',
   bracketSpacing: true,
-  jsxBracketSameLine:false,
-  arrowParens: "avoid",
+  jsxBracketSameLine: false,
+  arrowParens: 'avoid',
   rangeStart: 0,
   rangeEnd: Infinity,
   requirePragma: false,
   insertPragma: true,
-  proseWrap: "preserve",
-  htmlWhitespaceSensitivity: "css",
+  proseWrap: 'preserve',
+  htmlWhitespaceSensitivity: 'css',
   vueIndentScriptAndStyle: false,
-  endOfLine: "lf",
+  endOfLine: 'lf',
 };

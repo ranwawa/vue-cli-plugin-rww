@@ -1,10 +1,3 @@
-/**
- * @author ZMN
- * @since 2019/11/6
- * @desc 获取平台环境
- * @remark
- */
-
 /* eslint-disable */
 const getEnvironment = () => {
   let evn = '';

@@ -6,12 +6,22 @@ import {
   VALIDATOR_REQUIRED,
 } from '../assets/js/constants';
 
-export const objectName3 = {
-  name: {
-    type: TYPE.STRING,
-  },
+import {
+  TYPE,
+  VALIDATOR_MOBILE,
+  VALIDATOR_REQUIRED,
+} from '../assets/js/constants';
+
+export const objectName = {
+  name: VALIDATOR_REQUIRED('请传入姓名', TYPE.STRING),
   mobile: VALIDATOR_MOBILE,
 };
-export const objectName4 = {
-  id: VALIDATOR_REQUIRED('请传入id'),
+export const supplementComplain = {
+  body: {
+    type: TYPE.OBJECT,
+    fields: {
+      complainId: VALIDATOR_REQUIRED('请传入投诉id', TYPE.NUMBER),
+      contentRemark: VALIDATOR_REQUIRED('请传入投诉内容'),
+    },
+  },
 };

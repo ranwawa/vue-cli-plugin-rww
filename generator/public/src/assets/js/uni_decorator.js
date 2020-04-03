@@ -1,9 +1,3 @@
-/**
- * @author 冉娃娃
- * @since 2019/12/10
- * @desc 扩展uni原生方法
- * @remark
- */
 let isAlerting = false;
 let isLoading = false;
 let isToasting = false;

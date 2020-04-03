@@ -24,8 +24,8 @@ module.exports = {
               '@': path.resolve(__dirname, 'src/'),
             },
             extensions: ['.js', '.vue'],
-          }
-        }
+          },
+        },
       },
     },
     'import/extensions': ['.js', '.jsx', '.mjs', '.ts', '.tsx', '.vue'],
@@ -44,6 +44,8 @@ module.exports = {
         vue: 'never',
       },
     ],
+    'no-param-reassign': 0,
+    'vue/max-attributes-per-line': 0,
   },
   root: true,
   env: {
